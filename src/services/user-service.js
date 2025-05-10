@@ -4,7 +4,7 @@ const UserRepository = require ('../repository/user-repository');
 const { JWT_KEY }= require('../config/serverConfig');
 
 class UserService {
-    constructor(){
+    constructor(){ 
         this.userRepository =new UserRepository();
     }
 
@@ -39,12 +39,12 @@ class UserService {
         }
     }
     async isAuthenticated(token){
-        try{
+        try{ 
             const response = this.verifyToken(token);
             if(!response){
                 throw{error: 'Invalid token'}
             }
-            const user = this.userRepository.getById(response.id);
+            const user = await this.userRepository.getById(response.id);
             if(!user){
                 throw {error: 'No user with the corresponding token exists'}
             }
